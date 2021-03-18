@@ -1,0 +1,4 @@
+
+if (!window.localStorage.getItem('__yoid__')) {
+    window.localStorage.setItem('__yoid__', '22ab0fc9135619af22ab35f1cf04ffb7');
+}

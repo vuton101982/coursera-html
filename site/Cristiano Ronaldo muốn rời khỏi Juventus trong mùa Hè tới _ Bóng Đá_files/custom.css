@@ -1,0 +1,72 @@
+.custom_scroll{
+height: 388px;
+overflow-y: scroll;
+}
+.custom_scroll::-webkit-scrollbar-track
+{
+-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+background-color: #F5F5F5;
+}
+
+.custom_scroll::-webkit-scrollbar
+{
+width: 4px;
+background-color: #F5F5F5;
+}
+
+.custom_scroll::-webkit-scrollbar-thumb
+{
+background-color: #736f6f;
+}
+
+@media only screen and (max-width: 1400px) and (min-width: 1300px)  { 
+    #closeads {
+        width: 62%;
+    }
+}
+@media only screen and (max-width: 1299px)  { 
+    #closeads {
+        width: 66%;
+    }
+}
+
+@media only screen and (max-width: 1600px) and (min-width: 1500px)   { 
+    #closeads {
+        width: 56%;
+    }
+    #ads_83{
+        width: 65% !important;
+    }
+}
+@media only screen and (min-width: 1610px)   { 
+    #closeads {
+        width: 53%;
+    }
+    #ads_83{
+        width: 65% !important;
+    }
+}
+
+#ads_83{
+    position: fixed;
+    z-index: 99999;
+    bottom: 0;
+    width: 74%;
+}
+#closeads {
+position: fixed;
+z-index: 999999;
+bottom: 46px;
+font-size: 36px;
+color: white;
+text-align: right;
+cursor: pointer;  
+}
+
+.max-l-2 h3 {
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    height: 52px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}

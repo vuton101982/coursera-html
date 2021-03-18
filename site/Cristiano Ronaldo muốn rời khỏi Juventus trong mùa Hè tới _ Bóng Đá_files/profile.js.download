@@ -1,0 +1,130 @@
+$(document).ready(function(){
+    
+    var profile_fullname = $.cookie('PNM');
+    if(profile_fullname) {
+        $('#box_profile_login').remove();
+        $('#txt_profile_fullname').text(profile_fullname);
+        var profile_validate = $.cookie('PVD');
+        if(profile_validate) $('#box_profile_logined .confirm').show();
+        else $('#box_profile_logined .confirmed').show();
+    }
+    else {
+        $('#box_profile_logined').remove();
+        $('.box_warning_login').show();
+        
+        $('.new-com-bt').click(function(event){
+            $('.new-com-cnt.reply .bt-cancel-com').click();
+            $(this).hide();
+            $('#new-com-cnt').show();
+            $('#the-new-com').focus();
+        });
+        $('.bt-cancel-com').click(function(){
+            $('#the-new-com').val('');
+            $('#new-com-cnt').fadeOut('fast', function(){
+                $('.new-com-bt').fadeIn('fast');
+            });
+        });
+        $('.jsch').keyup(function() {
+           $(".bt-add-com").css({opacity:1});
+           $('.jsch').each(function(){
+                if($(this).val()=='') $(".bt-add-com").css({opacity:0.6});
+           });
+        });
+        $('.bt-add-com').click(function(){
+            var content = $('#the-new-com').val();
+            $.cookie("COMMENT", content);
+            $('a[href=#box_login]').click();
+        });
+
+    }
+    
+    $('#box_register form').submit(function(){
+        $(this).find('input[name=link]').val(window.location.href);
+        var is_empty = 1;
+        $(this).find('input').each(function(){
+            if($(this).val()=='') is_empty = 0;
+        });
+        if(!$('input[name=is_agree]').is(':checked')) is_empty = 0;
+        if(is_empty==0) {alert('Vui lòng nhập đủ thông tin'); return false;}
+        else {
+            var obj = $(this); obj.find('.js_res').html('Loading ...');
+            if(obj.find('input[name=password]').val()!=obj.find('input[name=repassword]').val()) {alert('Hai mật khẩu không trùng nhau'); return false;}
+            $.ajax({
+        		type: "POST",
+        		url: "/?mod=profile&act=register",
+        		data: obj.serializeArray(),
+        		dataType: "html",
+        		success: function(msg){
+        		  if(msg=='1') {
+        		      msg = 'Đăng ký thành công. Truy cập email để xác minh tài khoản.';
+                      setTimeout(function(){
+                        window.location.href = window.location.href;
+                      }, 2000);
+        		  }
+        		  obj.find('.js_res').html(msg);
+                },
+                error: function(request,error) {alert ( " Can't do because: " + error );}
+        	});
+        }
+        return false;
+    });
+    $('#box_login form').submit(function(){
+        var obj = $(this); obj.find('.js_res').html('Loading ...');
+        $.ajax({
+    		type: "POST",
+    		url: "/?mod=profile&act=login",
+    		data: obj.serializeArray(),
+    		dataType: "html",
+    		success: function(msg){
+    		  if(msg=='1') window.location.href = window.location.href;
+    		  else obj.find('.js_res').html(msg);
+            },
+            error: function(request,error) {alert ( " Can't do because: " + error );}
+    	});
+        return false;
+    });
+    
+    $('#box_forgot form').submit(function(){
+        if($(this).hasClass('disable')) return false;
+        $(this).addClass('disable');
+        var obj = $(this); obj.find('.js_res').html('Loading ...');
+        $.ajax({
+    		type: "POST",
+    		url: "/?mod=profile&act=forgot",
+    		data: obj.serializeArray(),
+    		dataType: "html",
+    		success: function(msg){
+    		  obj.find('.js_res').html(msg);
+            },
+            error: function(request,error) {alert ( " Can't do because: " + error );}
+    	});
+        return false;
+    });
+    $('#btn_profile_confirm').click(function(){
+        $.ajax({
+    		type: "GET",
+    		url: "/?mod=profile&act=confirm&type=resend",
+    		dataType: "html",
+    		success: function(msg){
+    		  alert(msg);
+            },
+            error: function(request,error) {alert ( " Can't do because: " + error );}
+    	});
+        return false;
+    });
+    
+    $('#box_changepass form').submit(function(){
+        var obj = $(this); obj.find('.js_res').html('Loading ...');
+        $.ajax({
+    		type: "POST",
+    		url: "/?mod=profile&act=changepass",
+    		data: obj.serializeArray(),
+    		dataType: "html",
+    		success: function(msg){
+    		  obj.find('.js_res').html(msg);
+            },
+            error: function(request,error) {alert ( " Can't do because: " + error );}
+    	});
+        return false;
+    });
+});
